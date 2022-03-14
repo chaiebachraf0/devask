@@ -1,0 +1,50 @@
+<div style="padding: 2%;">
+    <div class="col-lg-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-file-alt mr-2"></i>INVENTAIRE</h3>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm">
+                        <input type="text" class="form-control" placeholder="Recherche..." id="myInput">
+                        <div class="input-group-append">
+                            <div class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>
+                    <a class="btn btn-primary mb-2" style="color:white;font-size: small;" routerLink="addinv">
+                        <i class="fas fa-plus mr-2"></i>Créer INVENTAIRE
+                    </a>
+                </div>
+                <table class="table" style="font-size: small;color: gray;" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>RÉFÉRENCE</th>
+                            <th>Date</th>
+                            <th>Produit</th>
+                            <th>Quantité Enstock</th>
+                            <th>Quantité ajoutée</th>
+                            <th>Quantité disponible</th>
+                            <th style="width: 130px; ">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let inv of inventaires">
+                        <th>{{inv.id}}</th>
+                        <td>{{inv.date_creation}}</td>
+                        <td>{{inv.Libelle}}</td>
+                        <td>{{inv.Enstock}}</td>
+                        <td>{{inv.quantite}}</td>
+                        <td>{{inv.valeuru}}</td>
+                        <td><button type="button" class="btn btn-default btn-sm" style="font-size: small;" (click)="deleteinv(inv.id)"><i class="far fa-trash-alt"></i></button>
+                          <button type="button " class="btn btn-default btn-sm " style="font-size: small;" routerLink="detailsinv/{{inv.id}}"><i class="far fa-eye"></i></button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,109 @@
+<div style="padding: 2%;">
+  <div class="col-lg-12">
+      <div class="card card-primary card-outline card-outline shadow-lg p-3 mb-5 bg-white rounded">
+          <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-file-alt mr-2"></i>List des commandes </h3>
+              <div class="card-tools">
+                  <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="Recherche...">
+                      <div class="input-group-append">
+                          <div class="btn btn-primary">
+                              <i class="fas fa-search"></i>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body">
+
+              <div class="row">
+
+                  <div class="col-sm-3">
+                      <a class="btn btn-primary mb-2" style="color:white;font-size: small; margin-right: 5%;" routerLink="addcommf">
+                          <i class="fas fa-plus mr-2"></i>Créer Commande
+                      </a>
+
+                  </div>
+
+              </div>
+
+
+
+              <table class="table" style="font-size: small;color: gray; ">
+                  <thead>
+                      <tr>
+                          <th>RÉFÉRENCE</th>
+                          <th>Date Creation</th>
+                          <th>Fournisseur</th>
+                          <th>Montant</th>
+                          <th></th>
+                          <th style="width: 130px; ">Action</th>
+                      </tr>
+                  </thead>
+                  <tbody id="myTable">
+                      <tr *ngFor="let ff of facturef">
+                          <td>{{ff.Ref_Facture}}</td>
+                          <td>{{ff.date_creation}}</td>
+                          <td>{{ff.Nom_fournisseur}}</td>
+                          <td>{{ff.Montant_TTC}}</td>
+
+                          <td></td>
+                          <td>
+                            <button type="button " class="btn btn-default btn-sm" style="font-size: small;" (click)="deleteCommande(ff.id)"><i class="far fa-trash-alt "></i></button>
+                              <button type="button" class="btn btn-default btn-sm" style="font-size: small;" routerLink="editcomm//{{ff.id}}"><i class="far fa-edit"></i></button>
+                              <button type="button" class="btn btn-default btn-sm" style="font-size: small;" routerLink="commDetails/{{ff.id}}"><i class="far fa-eye"></i></button>
+
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+  <!-- Modal -->
+
+
+
+
+
+  <!-- <script>
+
+
+setInterval(() =>{
+
+
+  $(document).ready(function(){
+
+      $('#smartwizard').smartWizard({
+      selected: 0,
+      theme: 'dots',
+      autoAdjustHeight:true,
+      transitionEffect:'fade',
+      showStepURLhash: false,
+
+      });
+
+      });
+},2000);
+  </script> -->
+
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+<script>
+  $(document).ready(function(){
+
+$('#smartwizard').smartWizard({
+selected: 0,
+theme: 'dots',
+autoAdjustHeight:true,
+transitionEffect:'fade',
+showStepURLhash: false,
+
+});
+
+});
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script> -->
+
+</div>

@@ -1,0 +1,79 @@
+<div style="padding: 2%;">
+    <div class="col-lg-12">
+        <div class="card card-primary card-outline">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-file-alt mr-2"></i>Creer INVENTAIRE</h3>
+            </div>
+            <div class="card-body">
+                <form (ngSubmit)="insertData()" method="POST">
+                    <div class="row gy-2 gx-3 align-items-center">
+                        <div class="col-sm-4">
+                        </div>
+                        <div class="col-sm-4 ">
+                        </div>
+                        <div class="col-sm-4 ">
+                            <label for="name" style="font-size: small;color:lightslategrey">Créé Le :</label>
+                            <input type="date" style="font-size: small;" name="name " class="form-control " [(ngModel)]="inv.date_creation" [ngModelOptions]="{standalone: true}" required>
+                        </div>
+                    </div>
+                    <div class="row gy-2 gx-3 align-items-center">
+                        <div class="col-sm-4">
+
+                        </div>
+                        <div class="col-sm-4 ">
+
+                        </div>
+                        <div class="col-sm-4 mt-2">
+                            <label for="oten" style="font-size: small;color:lightslategrey">Entrepôt :&nbsp;&nbsp;&nbsp;&nbsp;Stock Principal</label>
+                            <input type="hidden" style="font-size: small;" name="note " class="form-control " required>
+                        </div>
+                    </div>
+                    <div class="row gy-2 gx-3 align-items-center ">
+                        <div class="col-sm-4 ">
+                        </div>
+                        <div class="col-sm-4 ">
+                        </div>
+                        <div class="col-sm-4 ">
+                            <label for="oten" style="font-size: small;color:lightslategrey">Note :</label>
+                            <input type="text" style="font-size: small;" name="note " class="form-control " [(ngModel)]="inv.note" [ngModelOptions]="{standalone: true}" required>
+                        </div>
+                    </div>
+                    <hr class=" my-4 ">
+                    <div class="row gy-2 gx-3 align-items-center">
+                        <div class="col-sm-4">
+                            <label for="produit " style="font-size: small;color:lightslategrey ">Produit/Quantité Enstock:</label>
+                            <select class="form-control" [(ngModel)]="index_produit " [ngModelOptions]="{standalone: true} " required>
+                              <option *ngFor="let fo of products;let index=index " value="{{index}}">{{fo.name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quantité Enstock:&nbsp;{{fo.Enstock}}</option>
+                          </select>
+                        </div>
+                        <!-- <div class="col-sm-3 ">
+                            <label for="prix" style="font-size: small;color:lightslategrey ">Quantité Disponible : {{inv.Enstock}}</label>
+                            <input type="number " style="font-size: small; " name="quantite " class="form-control " [(ngModel)]="inv.Enstock" [ngModelOptions]="{standalone: true} " required>
+
+                        </div> -->
+                        <div class="col-sm-3 ">
+                            <label for="quantite " style="font-size: small;color:lightslategrey ">Quantité ajoutée:</label>
+                            <input type="number " style="font-size: small; " name="quantite " class="form-control " [(ngModel)]="inv.quantite" required>
+                        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class=" col-sm-3 ">
+                            <label for="quantite " style="font-size: small;color:lightslategrey ">Quantité disponible &nbsp;:&nbsp;{{inv.valeuru}}</label>
+                            <!-- <input type="number " style="font-size: small; " name="quantite " class="form-control " [(ngModel)]="inv.valeuru" required> -->
+                        </div>
+                    </div>
+                    <div class="row g-3 ">
+                        <div class="col-md-4 ">
+
+                        </div>
+                        <div class="col-md-4 ">
+                        </div>
+                    </div>
+                    <hr class="my-4 ">
+                    <div class=" text-right ">
+                        <button type="button" style="font-size: small; " (click)="(annuler()) " class="btn btn-danger mr-2 ">Annuler</button>
+                        <button type="submit" style="font-size: small; " class="btn btn-primary ">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
