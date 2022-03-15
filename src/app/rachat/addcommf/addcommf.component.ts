@@ -80,6 +80,10 @@ export class AddcommfComponent implements OnInit {
       product.quantite = this.facturefournisseur[i].quantite_entre;
       product.id_product = this.facturefournisseur[i].produit.id;
       product.Libelle = this.facturefournisseur[i].produit.name;
+      product.Total_HT= this.facturefournisseur[i].Total_HT
+      product.Montant_TVA= this.facturefournisseur[i].Montant_TVA
+      product.Taxe_Applique= this.facturefournisseur[i].Taxe_Applique
+      product.Montant_TTC= this.facturefournisseur[i].Montant_TTC
 
       listAchat.push(product);
     }

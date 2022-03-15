@@ -51,7 +51,6 @@ export class AddfacturefComponent implements OnInit {
     this.facture.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
     this.facture.note="pas de note";
     this.facture.Ref_Facture="Fac-"
-    console.log("-----",this.facture.date_creation);
   }
 
 
