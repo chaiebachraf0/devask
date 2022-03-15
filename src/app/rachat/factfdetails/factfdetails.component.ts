@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FacturesService } from 'src/app/services/facturef.service';
-import * as jspdf from 'jspdf';
+import * as jspdf from "jspdf"
 import html2canvas from 'html2canvas';
 declare var export_pdf:any;
 @Component({
@@ -29,17 +29,19 @@ export class FactfdetailsComponent implements OnInit {
 {
  this.data = document.getElementById('contnetpdf');
 html2canvas(this.data).then(canvas => {
-// Few necessary setting options
-var imgWidth = 400;
-var pageHeight = 800;
-var imgHeight = canvas.height * imgWidth / canvas.width;
-var heightLeft = imgHeight;
-
 const contentDataURL = canvas.toDataURL('image/png')
 let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF
-var position = 0;
-pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)
-pdf.save('new-file.pdf'); // Generated PDF
+const pageWidth = pdf.internal.pageSize.getWidth();
+const pageHeight = pdf.internal.pageSize.getHeight();
+const widthRatio = pageWidth / canvas.width;
+const heightRatio = pageHeight / canvas.height;
+const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+const canvasWidth = canvas.width * ratio;
+const canvasHeight = canvas.height * ratio;
+const marginX = (pageWidth - canvasWidth) / 2;
+const marginY = (pageHeight - canvasHeight) / 2;
+pdf.addImage(contentDataURL, 'PNG', marginX, marginY, canvasWidth, canvasHeight)
+pdf.save('new-file.pdf');
 });
 }
 
