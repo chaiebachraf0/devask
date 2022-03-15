@@ -86,7 +86,6 @@ export class AddfacturefComponent implements OnInit {
       product.Montant_TTC= this.facturefournisseur[i].Montant_TTC
 
       listAchat.push(product);
-      console.log("asba",listAchat)
     }
     this.facture.ListProduct = listAchat;
     this.factureService.insertData(this.facture).subscribe(res => {
@@ -111,7 +110,6 @@ export class AddfacturefComponent implements OnInit {
   getSelecteItem(factfour: any) {
     this.productService.getProductById(factfour.id_product).subscribe(res => {
       factfour.produit = res;
-      console.log(factfour);
     });
   }
   getq(factfour: any) {

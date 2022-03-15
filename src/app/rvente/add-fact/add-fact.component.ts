@@ -70,11 +70,14 @@ export class AddFactComponent implements OnInit {
         product.quantite=this.factureclient[i].quantite_entre;
         product.id_product=this.factureclient[i].produit.id;
         product.Libelle=this.factureclient[i].produit.name;
+        product.Total_HT= this.factureclient[i].Total_HT
+        product.Montant_TVA= this.factureclient[i].Montant_TVA
+        product.Taxe_Applique= this.factureclient[i].Taxe_Applique
+        product.Montant_TTC= this.factureclient[i].Montant_TTC
         listvente.push(product);
       }
       this.facture.ListProductv=listvente;
       this.factService.insertData(this.facture).subscribe(res => {
-      console.log("dffgfggfgfgfgfgff");
       this.router.navigate(['rvente/vente/Facture']);
       this.toastr.success('avec succès', 'Facture Enregistrée');
       });
@@ -93,7 +96,6 @@ export class AddFactComponent implements OnInit {
     getSelecteItem(prod:any) {
       this.productService.getProductById(prod.id_product).subscribe(res => {
       prod.produit=res;
-      console.log(prod);
       });
     }
     getq(prod:any) {
