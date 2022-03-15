@@ -78,7 +78,6 @@ export class AddfacturefComponent implements OnInit {
     for (var i = 0; i < this.facturefournisseur.length; i++) {
       let product = new ListProduct();
 
-      console.log("##++",this.facturefournisseur[i].product);
       product.quantite = this.facturefournisseur[i].quantite_entre;
       product.id_product = this.facturefournisseur[i].produit.id;
       product.Libelle = this.facturefournisseur[i].produit.name;
@@ -97,14 +96,6 @@ export class AddfacturefComponent implements OnInit {
     });
 
 
-    // let paiementt = new Paiement();
-    // paiementt.paye="0";
-    // paiementt.reste=this.facture.Montant_TTC;
-    // paiementt.montant=this.facture.Montant_TTC
-    // paiementt.date_echenace=this.facture.date_echeance;
-    // paiementt.date_reglement=this.facture.date_creation;
-    // this.paiement.insertData(paiementt).subscribe(res=>{
-    // });
 
   }
   getproduits() {

@@ -1,88 +1,124 @@
+import { FournisseurFacture } from 'src/app/models/facturef.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { FournisseurFacture } from 'src/app/models/facturef.model';
+import { FournisseurModel } from 'src/app/models/fournisseur.model';
+import { ListProduct } from 'src/app/models/Listproduct.model';
 import { FacturesService } from 'src/app/services/facturef.service';
 import { FournisseursService } from 'src/app/services/fournisseurs.service';
 import { ProductService } from 'src/app/services/product.service';
-
+import { Paiement } from 'src/app/models/paiement';
+import { PaiementService } from 'src/app/services/paiement.service';
+import {formatDate} from '@angular/common';
 @Component({
   selector: 'app-editfactf',
   templateUrl: './editfactf.component.html',
   styleUrls: ['./editfactf.component.css']
 })
 export class EditfactfComponent implements OnInit {
-  facturef: any;
-  data: any;
-  id:any;
-  listProduct: any;
   products: any;
-  Net: any;
+  id:any;
+  factures: any;
+  facturedetails:any
+  index_fournisseur: any;
   f: any;
-  facturefs=new FournisseurFacture();
-  constructor(private route:ActivatedRoute,private router:Router,private toastr: ToastrService,private factureService: FacturesService,private productService:ProductService,private four:FournisseursService) { }
+  fournisseur = new FournisseurModel();
+  facture = new FournisseurFacture();
+  Net: any;
+  facturefournisseur: FournisseurFacture[] = [new FournisseurFacture()];
+  myDate = new Date();
+  constructor(private route: ActivatedRoute, private router: Router, private toastr: ToastrService, private factureService: FacturesService, private productService: ProductService, private four: FournisseursService, private paiement: PaiementService) { }
   ngOnInit(): void {
+
     this.id=this.route.snapshot.params.id;
-    this.getfacturedata();
+    this.getfactfdetails()
+    this.getfournisseur();
+    this.facture.Timbre_fiscale = 0.6;
+    this.getproduits();
+    this.facture.Montant_TTC = 0;
+    this.facture.Montant_TVA = 0;
+    this.facture.Total_HT=0;
+    this.facture.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.facture.note="pas de note";
+    this.facture.Ref_Facture="Fac-"
   }
-  getfacturedata(){
-  this.factureService.getFactureById(this.id).subscribe(res=>{
-  this.data=res;
-  this.facturefs=this.data;
-  this.Net=this.facturefs.Montant_TTC+this.facturefs.Timbre_fiscale;
-  })
+  getfactfdetails(){
+    this.factureService.getFactureById(this.id).subscribe(res =>{
+    this.facturedetails=res[1];
+    console.log(this.facturedetails.Nom_fournisseur)
+
+    });
+    }
+
+  add() {
+    let fact = new FournisseurFacture();
+    this.facturefournisseur.push(fact);
   }
-  updatefacture(){
-    this.factureService.updateData(this.id,this.facturefs).subscribe(res=>{
+
+  insertData() {
+
+    this.facture.Etat = "non payé";
+    this.facture.Timbre_fiscale = 0.6;
+    this.facture.Nom_fournisseur = this.f[this.index_fournisseur].NOM
+    this.facture.id_fournisseur = this.f[this.index_fournisseur].id
+    this.facture.quantite_entre = 999;
+/*     this.facture.date_creation=this.myDate;
+ */
+  let listAchat: Array<ListProduct> = new Array();
+    for (var i = 0; i < this.facturefournisseur.length; i++) {
+      let product = new ListProduct();
+
+      product.quantite = this.facturefournisseur[i].quantite_entre;
+      product.id_product = this.facturefournisseur[i].produit.id;
+      product.Libelle = this.facturefournisseur[i].produit.name;
+      product.Total_HT= this.facturefournisseur[i].Total_HT
+      product.Montant_TVA= this.facturefournisseur[i].Montant_TVA
+      product.Taxe_Applique= this.facturefournisseur[i].Taxe_Applique
+      product.Montant_TTC= this.facturefournisseur[i].Montant_TTC
+
+      listAchat.push(product);
+    }
+    this.facture.ListProduct = listAchat;
+    this.factureService.insertData(this.facture).subscribe(res => {
       this.router.navigate(['rachat/achat/facturef']);
-      this.toastr.success('avec succès', 'Facture modifée :)');
+      this.toastr.success('', 'Facture Enregistrée');
     });
-  }
-  add(){
-  let fact = new FournisseurFacture();
-  this.listProduct.push(fact);
-  }
-  getProductsData() {
-    this.factureService.getData().subscribe(res => {
-    this.facturef = res;
-    });
-  }
-  getfournisseur(){
-    this.four.getfournisseurData().subscribe(res => {
-    this.f = res;
-    });
+
   }
   getproduits() {
     this.productService.getData().subscribe(res => {
-    this.products=res;
+      this.products = res;
+
     });
   }
-  getSelecteItem(prod:any) {
-    this.productService.getProductById(prod.id_product).subscribe(res => {
-    prod.product=res;
-    console.log(prod);
+  getfournisseur() {
+    this.four.getfournisseurData().subscribe(res => {
+      this.f = res;
     });
   }
-  getq(prod:any) {
-    let qte=prod.quantite_entre;
-    prod.Montant_TVA=((prod.product.priceht*prod.product.TVA)/100)*qte;
-    prod.Taxe_Applique=prod.product.typetaxe;
-    prod.Montant_TTC=qte*prod.product.pricettc;
-    prod.Total_HT=qte*prod.product.priceht;
-    this.facturef.Montant_TTC=0;
-    this.facturef.Montant_TVA=0;
-    this.facturef.Total_HT=0;
-    for (var i = 0; i < this.listProduct.length; i++) {
-    this.facturef.Montant_TTC+=this.listProduct[i].Montant_TTC;
-    this.facturef.Montant_TVA+=this.listProduct[i].Montant_TVA;
-    this.facturef.Total_HT+=this.listProduct[i].Total_HT;
-    this.Net=this.facturef.Montant_TTC+this.facturef.Timbre_fiscale;
-}
-}
-
-annuler(){
-  this.router.navigate(['rachat/achat/facturef']);
-  this.toastr.error('', 'Annulation');
-}
-
+  getSelecteItem(factfour: any) {
+    this.productService.getProductById(factfour.id_product).subscribe(res => {
+      factfour.produit = res;
+    });
+  }
+  getq(factfour: any) {
+    let qte = factfour.quantite_entre;
+    factfour.Montant_TVA = ((factfour.produit.priceht * factfour.produit.TVA) / 100) * qte;
+    factfour.Taxe_Applique = factfour.produit.typetaxe;
+    factfour.Montant_TTC = qte * factfour.produit.pricettc;
+    factfour.Total_HT = qte * factfour.produit.priceht;
+    this.facture.Montant_TTC = 0;
+    this.facture.Montant_TVA = 0;
+    this.facture.Total_HT = 0;
+    for (var i = 0; i < this.facturefournisseur.length; i++) {
+      this.facture.Montant_TTC += this.facturefournisseur[i].Montant_TTC;
+      this.facture.Montant_TVA += this.facturefournisseur[i].Montant_TVA;
+      this.facture.Total_HT += this.facturefournisseur[i].Total_HT;
+      this.Net = this.facture.Montant_TTC + this.facture.Timbre_fiscale;
+    }
+  }
+  annuler() {
+    this.router.navigate(['rachat/achat/facturef']);
+    this.toastr.error('', 'Annulation');
+  }
 }

@@ -1,78 +1,113 @@
 <div style="padding: 2%;">
-    <div class="col-lg-12">
-        <div class="card card-primary card-outline shadow-lg p-3 mb-5 bg-white rounded">
-            <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-file-alt mr-2"></i>Modifier {{facturefs.Ref_Facture}}</h3>
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="row gy-2 gx-3 align-items-center">
-                        <div class="col-sm-4"> <label for="Fournisseur" style="font-size: small;color:lightslategrey">Fournisseur : {{facturefs.Nom_fournisseur}}</label>
-                        </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="name " style="font-size: small;color:lightslategrey ">Créé
-                                Le :</label> <input type="date" style="font-size: small; " name="date_creation " class="form-control " [(ngModel)]="facturefs.date_creation " [ngModelOptions]="{standalone: true} " required> </div>
+  <div class="col-lg-12">
+      <div class="card card-primary card-outline shadow-lg p-3 mb-5 bg-white rounded">
+          <div class="card-header">
+              <h3 class="card-title"><i class="fas fa-file-alt mr-2"></i>Modifier Facture</h3>
+          </div>
+          <div class="card-body">
+              <form>
+                  <div class="row gy-2 gx-3 align-items-center">
+                    <div class="col-sm-4"> <label for="Fournisseur" style="font-size: small;color:lightslategrey">Fournisseur :</label>
+                      <input type="text" name="Nom_fournisseur" style="font-size: small;" class="form-control" [(ngModel)]="facturedetails.Nom_fournisseur"  disabled>
                     </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "></div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="oten " style="font-size: small;color:lightslategrey ">Note
-                                :</label> <input type="text " style="font-size: small; " name="note " class="form-control " [(ngModel)]="facturefs.note " [ngModelOptions]="{standalone: true} " required> </div>
-                    </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="name " style="font-size: small;color:lightslategrey ">Délai de payemant :</label> <input type="date" style="font-size: small; " name="date_echeance " class="form-control " [(ngModel)]="facturefs.date_echeance
-                                " [ngModelOptions]="{standalone: true} " required>
-                        </div>
-                    </div>
-                    <hr class="my-4 ">
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> <label for="produit " style="font-size: small;color:lightslategrey ">Timbre fiscale :</label> <input type="number " style="font-size: small; " name="timbre fiscale " class="form-control " [(ngModel)]="facturefs.Timbre_fiscale
-                                " [ngModelOptions]="{standalone: true} " required> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="prix " style="font-size: small; ">Total HT : {{facturefs.Total_HT}} EUR</label>
-                        </div>
-                    </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="prix " style="font-size: small; ">Total TVA : {{facturefs.Montant_TVA}} EUR
-                        </label>
-                        </div>
-                    </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="prix " style="font-size: small; ">Total TTC :{{facturefs.Montant_TTC}} EUR
-                        </label>
-                        </div>
-                    </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="prix " style="font-size: small; ">Timbre fiscale : {{facturefs.Timbre_fiscale}} EUR</label>
-                        </div>
-                    </div>
-                    <div class="row gy-2 gx-3 align-items-center ">
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> </div>
-                        <div class="col-sm-4 "> <label for="prix " style="font-size: small; ">NET A PAYER : {{Net}} EUR</label>
-                        </div>
-                    </div>
-                    <hr class="my-4 ">
-                    <div class="row g-3 ">
-                        <div class="col-sm-4 "> <label for="Ref_Facture " style="font-size: small;color:lightslategrey ">Réference Facture</label> <input type="text " name="Ref_Facture " class="form-control " [(ngModel)]="facturefs.Ref_Facture
-                        " [ngModelOptions]="{standalone: true} " required> </div>
-                        <div class="col-sm-4 ">
-                        </div>
-                        <div class=" col-sm-4 "> <label for="Ref_Facture " style="font-size: small;color:lightslategrey ">Etat : {{facturefs.Etat}}</label> </div>
-                    </div>
+                      <div class="col-sm-4 "> </div>
+                      <div class="col-sm-4 "> <label for="name" style="font-size: small;color:lightslategrey">Créé
+                                Le :</label> <input type="date" style="font-size: small;" name="date_creation " class="form-control " [(ngModel)]="facturedetails.date_creation" [ngModelOptions]="{standalone: true}" required> </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center">
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4 "> </div>
+                      <div class="col-sm-4 "> <label for="oten" style="font-size: small;color:lightslategrey">Note
+                                :</label> <input type="text" style="font-size: small;" name="note " class="form-control " [(ngModel)]="facturedetails.note" [ngModelOptions]="{standalone: true}" required> </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4 "> </div>
+                      <div class="col-sm-4 "> </div>
+                      <div class="col-sm-4 "> <label for="name" style="font-size: small;color:lightslategrey">Délai de payemant :</label> <input type="date" style="font-size: small;" name="date_echeance " class="form-control " [(ngModel)]="facturedetails.date_echeance" [ngModelOptions]="{standalone: true}"
+                              required>
+                      </div>
+                  </div>
+                  <hr class="my-4 ">
+                  <div class="row gy-2 gx-3 align-items-center ">
 
-                    <hr class="my-4 ">
-                    <div class=" text-right "> <button type="button " style="font-size: small; " class="btn btn-danger mr-2 " (click)="annuler() ">Annuler</button> <button type="submit " style="font-size: small; " class="btn btn-primary " (click)="updatefacture()">Enregistrer</button>                        </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                      <div class="row gy-2 gx-3 align-items-center " *ngFor="let factfour of facturefournisseur">
+
+                          <div class="col-sm-2 "> <label for="produit" style="font-size: small;color:lightslategrey">Produit :</label>
+                              <select class="form-control" (change)="getSelecteItem(factfour)" [(ngModel)]="factfour.id_product" [ngModelOptions]="{standalone: true}" required>
+                                    <option *ngFor="let p of products" value={{p.id}}>{{p.name}}</option>
+                                </select>
+                          </div>
+                          <div class="col-sm-4 "> <label for="quantite" style="font-size: small;color:lightslategrey">Quantité :</label> <input type="number" style="font-size: small;" name="quantite_entre " (change)="getq(factfour)" class="form-control " [(ngModel)]="factfour.quantite_entre"
+                                  [ngModelOptions]="{standalone: true}" value="1" required>
+                          </div>
+                          <div class="col-sm-3 "> <label for="produit" style="font-size: small;color:lightslategrey">Montant TVA: </label>
+
+                              <input type="" name="MONTANT_TVA" style="font-size: small;" class="form-control" [(ngModel)]="factfour.Montant_TVA" [ngModelOptions]="{standalone: true}" required disabled>
+
+
+
+                              <div> <label for="produit" style="font-size: small;color:lightslategrey">Taxe
+                                        Appliqqué:
+                                    </label>
+                                  <input type="" name="TAXA" style="font-size: small;" class="form-control" [(ngModel)]="factfour.Taxe_Applique" [ngModelOptions]="{standalone: true}" required disabled>
+                              </div>
+                          </div>
+                          <div class="col-sm-3 "> <label for="produit" style="font-size: small;color:lightslategrey">Total HT: </label>
+                              <input type="" name="Prix_HT" style="font-size: small;" class="form-control" [(ngModel)]="factfour.Total_HT" [ngModelOptions]="{standalone: true}" required disabled>
+
+                              <div> <label for="produit" style="font-size: small;color:lightslategrey">Total TTC:
+                                    </label>
+                                  <input type="" name="Prix_TTC" style="font-size: small;" class="form-control" [(ngModel)]="factfour.Montant_TTC" [ngModelOptions]="{standalone: true}" required disabled>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="  text-right col-sm-12 mt-3  ">
+                          <button type="submit" style="font-size: small;" class="btn btn-success " (click)="add()"><i
+                                    class=" nav-icon fas fa-plus " ></i>
+                            </button>
+                      </div>
+                  </div>
+                  <hr class="my-4 ">
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4 "> <label for="produit" style="font-size: small;color:lightslategrey">Timbre fiscale :</label> <input type="number" style="font-size: small;" name="timbre fiscale " class="form-control " [(ngModel)]="facturedetails.Timbre_fiscale" [ngModelOptions]="{standalone: true}"
+                           hidden   required> </div>
+                      <div class="col-sm-4 "> </div>
+                      <div class="col-sm-4 "> <label for="prix" style="font-size: small;">Total HT : {{facturedetails.Total_HT}} EUR</label>
+                      </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> <label for="prix" style="font-size: small;">Total TVA : {{facturedetails.Montant_TVA}} EUR
+                        </label>
+                      </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> <label for="prix" style="font-size: small;">Total TTC :{{facturedetails.Montant_TTC}} EUR
+                        </label>
+                      </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> <label for="prix" style="font-size: small;">Timbre fiscale : {{facturedetails.Timbre_fiscale}} EUR</label>
+                      </div>
+                  </div>
+                  <div class="row gy-2 gx-3 align-items-center ">
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> </div>
+                      <div class="col-sm-4"> <label for="prix" style="font-size: small;">NET A PAYER : {{Net}} EUR</label>
+                      </div>
+                  </div>
+                  <hr class="my-4">
+                  <div class="row g-3"> </div>
+                  <div class="col-sm-4"> <label for="Ref_Facture" style="font-size: small;color:lightslategrey">Réference Facture</label> <input type="text" name="Ref_Facture" class="form-control" [(ngModel)]="facturedetails.Ref_Facture" [ngModelOptions]="{standalone: true}" required>                        </div>
+                  <hr class="my-4">
+                  <div class=" text-right"> <button type="button" style="font-size: small;" class="btn btn-danger mr-2" (click)="annuler()">Annuler</button> <button type="submit" style="font-size: small;" class="btn btn-primary " (click)="insertData()">Modifier</button> </div>
+              </form>
+          </div>
+      </div>
+  </div>
 </div>
