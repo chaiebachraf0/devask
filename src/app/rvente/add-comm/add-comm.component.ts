@@ -24,59 +24,62 @@ export class AddCommComponent implements OnInit {
   libelle:any
   TOT_HT:any;
   TOT_TTC:any;
-  commcls: any;
+  factures: any;
   TAXA:any;
   MONTANT_TVA:any;
   values: any;
   index_client:any;
   f:any;
-  client =new clientModel;
-  commcl = new Facturemodel;
+  client =new clientModel();
+  facture = new Facturemodel();
   Net: any;
-  prod:any;
-  listProduct: Facturemodel[] = [new Facturemodel()];
+  factureclient: Facturemodel[] = [new Facturemodel()];
+  myDate = new Date();
   constructor(private route:ActivatedRoute,private router:Router,private toastr: ToastrService,private productService:ProductService,private clientservice:ClientsService,private cmdService: commandeclService) { }
   ngOnInit(): void {
     this.getclients();
-    this.commcl.Timbre_fiscale=0.6;
+    this.facture.Timbre_fiscale=0.6;
     this.getProductsData()
     this.getproduits();
-    this.commcl.Total_HT=0;
-    this.commcl.Montant_TTC=0;
-    this.commcl.Montant_TVA=0;
-    this.commcl.note="pas de note";
-    this.commcl.Ref_Facture="comm-";
-    this.commcl.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.facture.Total_HT=0;
+    this.facture.Montant_TTC=0;
+    this.facture.Montant_TVA=0;
+    this.facture.note="pas de note";
+    this.facture.Ref_Facture="comm-";
+    this.facture.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
   add(){
-    let comm = new Commclmodel();
-    this.listProduct.push(comm);
+    let fact = new Commclmodel();
+    this.factureclient.push(fact);
   }
     getProductsData() {
       this.cmdService.getData().subscribe(res => {
-      this.commcls = res;
+      this.factures = res;
       });
     }
     insertData() {
-      this.commcl.Etat="Non Confirmée";
-      this.commcl.Timbre_fiscale=0.6;
-      this.commcl.Nom_client=this.f[this.index_client].name
-      this.commcl.id_client=this.f[this.index_client].id
-      this.commcl.quantite_entre=999;
+      this.facture.Timbre_fiscale=0.6;
+      this.facture.Nom_client=this.f[this.index_client].name
+      this.facture.id_client=this.f[this.index_client].id
+      this.facture.quantite_entre=999;
       let listvente: Array<ListProductv> = new Array();
-      for (var i = 0; i < this.listProduct.length; i++) {
+      for (var i = 0; i < this.factureclient.length; i++) {
         let product = new ListProductv();
-        let obj=this.listProduct[i].product
-        let first = Object.values(obj)[0]
-        let second = Object.values(obj)[1]
-        product.quantite=this.listProduct[i].quantite_entre;
-        product.id_product=first;
-        product.Libelle=second;
+console.log("dkhdb",this.factureclient[i])
+        product.quantite=this.factureclient[i].quantite_entre;
+        product.id_product=this.factureclient[i].product.id;
+        product.Libelle=this.factureclient[i].product.name;
+        product.Total_HT= this.factureclient[i].Total_HT
+        product.Montant_TVA= this.factureclient[i].Montant_TVA
+        product.Taxe_Applique= this.factureclient[i].Taxe_Applique
+        product.Montant_TTC= this.factureclient[i].Montant_TTC
+
+
         listvente.push(product);
       }
-      this.commcl.ListProductv=listvente;
+      this.facture.ListProductv=listvente;
 
-      this.cmdService.insertData(this.commcl).subscribe(res => {
+      this.cmdService.insertData(this.facture).subscribe(res => {
         this.router.navigate(['rvente/vente/CommandeCl']);
         this.toastr.success('avec succès', 'Commande Enregistrée');
       });
@@ -103,14 +106,14 @@ export class AddCommComponent implements OnInit {
       prod.Taxe_Applique=prod.product.typetaxe;
       prod.Montant_TTC=qte*prod.product.pricettc;
       prod.Total_HT=qte*prod.product.priceht;
-      this.commcl.Montant_TTC=0;
-      this.commcl.Montant_TVA=0;
-      this.commcl.Total_HT=0;
-      for (var i = 0; i < this.listProduct.length; i++) {
-      this.commcl.Montant_TTC+=this.listProduct[i].Montant_TTC;
-      this.commcl.Montant_TVA+=this.listProduct[i].Montant_TVA;
-      this.commcl.Total_HT+=this.listProduct[i].Total_HT;
-      this.Net=this.commcl.Montant_TTC+this.commcl.Timbre_fiscale;
+      this.facture.Montant_TTC=0;
+      this.facture.Montant_TVA=0;
+      this.facture.Total_HT=0;
+      for (var i = 0; i < this.factureclient.length; i++) {
+      this.facture.Montant_TTC+=this.factureclient[i].Montant_TTC;
+      this.facture.Montant_TVA+=this.factureclient[i].Montant_TVA;
+      this.facture.Total_HT+=this.factureclient[i].Total_HT;
+      this.Net=this.facture.Montant_TTC+this.facture.Timbre_fiscale;
   }
 }
   annuler(){

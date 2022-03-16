@@ -1,3 +1,5 @@
+import { Commclmodel } from 'src/app/models/commcl.model';
+import { Facturemodel } from 'src/app/models/Facture.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +16,6 @@ import {formatDate} from '@angular/common';
   styleUrls: ['./adddevis.component.css']
 })
 export class AdddevisComponent implements OnInit {
-  [x: string]: Object;
   products: any;
   ress: any;
   p: any;
@@ -30,54 +31,60 @@ export class AdddevisComponent implements OnInit {
   values: any;
   index_client:any;
   f:any;
-  client =new clientModel;
-  devis:any;
-  Devis=new Devismodel;
+  client =new clientModel();
+  facture = new Facturemodel();
   Net: any;
-  prod:any;
-  listProduct: Devismodel[] = [new Devismodel()];
+  factureclient: Facturemodel[] = [new Facturemodel()];
+  myDate = new Date();
   constructor(private route:ActivatedRoute,private router:Router,private toastr: ToastrService,private productService:ProductService,private clientservice:ClientsService,private devisService:devisService) { }
   ngOnInit(): void {
     this.getclients();
-    this.Devis.Timbre_fiscale=0.6;
+    this.facture.Timbre_fiscale=0.6;
     this.getProductsData()
     this.getproduits();
-    this.Devis.Total_HT=0;
-    this.Devis.Montant_TTC=0;
-    this.Devis.Montant_TTC=0;
-    this.Devis.note="pas de note";
-    this.Devis.Ref_Facture="dev-";
-    this.Devis.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.facture.Total_HT=0;
+    this.facture.Montant_TTC=0;
+    this.facture.Montant_TVA=0;
+    this.facture.note="pas de note";
+    this.facture.Ref_Facture="comm-";
+    this.facture.date_creation=formatDate(new Date(), 'yyyy-MM-dd', 'en');
+
   }
   add(){
-    let dev = new Devismodel();
-    this.listProduct.push(dev);
+    let fact = new Commclmodel();
+    this.factureclient.push(fact);
   }
     getProductsData() {
       this.devisService.getData().subscribe(res => {
-      this.devis = res;
+        this.factures = res;
       });
     }
     insertData() {
-      console.log(this.devis);
-      this.Devis.Timbre_fiscale=0.6;
-      this.Devis.Nom_client=this.f[this.index_client].name
-      this.Devis.id_client=this.f[this.index_client].id
-      this.Devis.quantite_entre=999;
+      this.facture.Timbre_fiscale=0.6;
+      this.facture.Nom_client=this.f[this.index_client].name
+      this.facture.id_client=this.f[this.index_client].id
+      this.facture.quantite_entre=999;
       let listvente: Array<ListProductv> = new Array();
-      for (var i = 0; i < this.listProduct.length; i++) {
+      for (var i = 0; i < this.factureclient.length; i++) {
         let product = new ListProductv();
-        product.quantite=this.listProduct[i].quantite_entre;
-        product.id_product=this.listProduct[i].id;
-        product.Libelle=this.listProduct[i].Libelle;
+console.log("dkhdb",this.factureclient[i])
+        product.quantite=this.factureclient[i].quantite_entre;
+        product.id_product=this.factureclient[i].product.id;
+        product.Libelle=this.factureclient[i].product.name;
+        product.Total_HT= this.factureclient[i].Total_HT
+        product.Montant_TVA= this.factureclient[i].Montant_TVA
+        product.Taxe_Applique= this.factureclient[i].Taxe_Applique
+        product.Montant_TTC= this.factureclient[i].Montant_TTC
+
+
         listvente.push(product);
       }
-      this.Devis.ListProductv=listvente;
-      this.devisService.insertData(this.Devis).subscribe(res => {
+      this.facture.ListProductv=listvente;
+      this.devisService.insertData(this.facture).subscribe(res => {
+        this.toastr.success('avec succès', 'Devis Enregistré');
+        this.router.navigate(['rvente/vente/Devis']);
       });
       this.getProductsData()
-      this.toastr.success('avec succès', 'Devis Enregistré');
-      this.router.navigate(['rvente/vente/Devis']);
     }
     getproduits() {
       this.productService.getData().subscribe(res => {
@@ -92,7 +99,6 @@ export class AdddevisComponent implements OnInit {
     getSelecteItem(prod:any) {
       this.productService.getProductById(prod.id_product).subscribe(res => {
       prod.product=res;
-      console.log(prod);
       });
     }
     getq(prod:any) {
@@ -101,14 +107,14 @@ export class AdddevisComponent implements OnInit {
       prod.Taxe_Applique=prod.product.typetaxe;
       prod.Montant_TTC=qte*prod.product.pricettc;
       prod.Total_HT=qte*prod.product.priceht;
-      this.Devis.Montant_TTC=0;
-      this.Devis.Montant_TVA=0;
-      this.Devis.Total_HT=0;
-      for (var i = 0; i < this.listProduct.length; i++) {
-      this.Devis.Montant_TTC+=this.listProduct[i].Montant_TTC;
-      this.Devis.Montant_TVA+=this.listProduct[i].Montant_TVA;
-      this.Devis.Total_HT+=this.listProduct[i].Total_HT;
-      this.Net=this.Devis.Montant_TTC+this.Devis.Timbre_fiscale;
+      this.facture.Montant_TTC=0;
+      this.facture.Montant_TVA=0;
+      this.facture.Total_HT=0;
+      for (var i = 0; i < this.factureclient.length; i++) {
+      this.facture.Montant_TTC+=this.factureclient[i].Montant_TTC;
+      this.facture.Montant_TVA+=this.factureclient[i].Montant_TVA;
+      this.facture.Total_HT+=this.factureclient[i].Total_HT;
+      this.Net=this.facture.Montant_TTC+this.facture.Timbre_fiscale;
   }
 }
   annuler(){
